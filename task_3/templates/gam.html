@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+/* Center everything horizontally and vertically */
+/* Center everything horizontally and vertically */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    margin: 0; /* Reset default margin */
+}
+
+/* Style the container */
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    padding-bottom: 20px;
+    height: 70vh; /* Adjust as needed */
+    border: 2px solid #000000; /* Add border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+}
+
+/* Style the game section */
+#game {
+    text-align: center;
+    margin-right: 20px; /* Add some space between game and result sections */
+}
+
+#game h1 {
+    font-size: 28px;
+}
+
+#game-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#game-form button {
+    margin-top: 10px;
+    background-color: #038a01; /* Blue color for button */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#game-form button:hover {
+    background-color: #506938; /* Darker blue color on hover */
+}
+
+#result {
+    display: none; /* Hidden by default */
+    text-align: center; /* Center the content horizontally */
+}
+
+#result h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#result img {
+    width: 100px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+#result button {
+    margin-top: 20px;
+    background-color: #604702;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#result button:hover {
+    background-color: #54687c;
+}
+
+    </style>
+    <title>Rock, Paper, Scissors Game</title>
+</head>
+<body>
+    <div id="container">
+        <div id="game">
+            <h1>Rock, Paper, Scissors Game</h1>
+            <form id="game-form" onsubmit="return playGame()">
+                <label for="rock">
+                    <input type="radio" id="rock" name="choice" value="rock">
+                    Rock
+                </label>
+                <label for="paper">
+                    <input type="radio" id="paper" name="choice" value="paper">
+                    Paper
+                </label>
+                <label for="scissors">
+                    <input type="radio" id="scissors" name="choice" value="scissors">
+                    Scissors
+                </label>
+                <button type="submit">Play</button>
+            </form>
+        </div>
+        <br>
+
+        <div id="result" class="hidden">
+         
+    <h2>Your choice: <span id="user-choice"></span></h2>
+    <img id="user-choice-img" src="" alt="User Choice">
+    <h2>Computer's choice: <span id="computer-choice"></span></h2>
+    <img id="computer-choice-img" src="" alt="Computer Choice">
+    <h2>Result: <span id="result-text"></span></h2>
+    
+    <button onclick="playAgain()">Play Again</button>
+    <br>
+</div>
+    </div>
+
+    <script>
+        function playGame() {
+            var form = document.getElementById("game-form");
+            var userChoice = form.elements["choice"].value;
+            if (!userChoice) {
+                alert("Please select an option.");
+                return false;
+            }
+            var computerChoice = ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)];
+
+            // Determine the winner
+            var result = '';
+            if (userChoice == computerChoice) {
+                result = 'Tie';
+            } else if ((userChoice == 'rock' && computerChoice == 'scissors') ||
+                       (userChoice == 'scissors' && computerChoice == 'paper') ||
+                       (userChoice == 'paper' && computerChoice == 'rock')) {
+                result = 'You Win!';
+            } else {
+                result = 'Computer Wins!';
+            }
+
+            // Update result section
+            document.getElementById("user-choice").textContent = userChoice;
+            document.getElementById("computer-choice").textContent = computerChoice;
+            document.getElementById("result-text").textContent = result;
+
+            // Update images
+            document.getElementById("user-choice-img").src = "/static/img/" + userChoice + ".png";
+            document.getElementById("computer-choice-img").src = "/static/img/" + computerChoice + ".png";
+
+            // Show result section and hide game section
+            document.getElementById("game").style.display = "none";
+            document.getElementById("result").style.display = "block";
+
+            // Prevent form submission
+            return false;
+        }
+
+        function playAgain() {
+            // Reset form and show game section
+            document.getElementById("game-form").reset();
+            document.getElementById("game").style.display = "block";
+            document.getElementById("result").style.display = "none";
+        }
+    </script>
+</body>
+</html>
